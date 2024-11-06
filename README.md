@@ -5,9 +5,11 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-# ⛆ QR Code Generator (Work In Progress)
+# ⛆ QR Code Generator
 
 QR Code Generator is a very simple app used to create custom QR code images from user-defined URLs.
+
+I developed this for use on my personal website.
 
 ## 🧑‍💻 Tech Stack
 
