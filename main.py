@@ -17,5 +17,16 @@ if __name__ == "__main__":
 
     qrGenerator = QrGenerator()
 
-    qrGenerator.generateBasicQR("https://www.tomaston.dev", fill_color='rgb(15, 22, 36)', back_color='rgb(156, 201, 227)')
-    qrGenerator.generateQRWithLogo("https://www.tomaston.dev", fill_color='rgb(15, 22, 36)', back_color='rgb(156, 201, 227)')
+    URL: str = 'https://www.tomaston.dev'
+    FILL_COLOR: str = 'rgb(15, 22, 36)'
+    BACK_COLOR: str = 'rgb(156, 201, 227)'
+    LOGO_FILE_PATH: str | None = './image/logo.png' 
+
+    GENERATE_WITH_LOGO = True
+
+    match GENERATE_WITH_LOGO:
+        case True:
+            qrGenerator.generateQRWithLogo(URL, FILL_COLOR, BACK_COLOR, LOGO_FILE_PATH)
+        case _:
+            qrGenerator.generateBasicQR(URL, FILL_COLOR, BACK_COLOR)
+    

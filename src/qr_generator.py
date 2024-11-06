@@ -13,13 +13,20 @@ import qrcode
 from PIL import Image
 import qrcode.image.pil
 
+from src.logger import Log
+
 class QrGenerator():
     '''
     bief: QR code generator functionality
     '''
 
-    def __init__(self):
-        pass
+    log = Log.get_instance()
+
+    def __init__(self) -> None:
+        '''
+        brief: contructor class
+        '''
+        self.log.log_info(f'QR Generator class instatiated...', self.__class__.__name__)
 
 
     def __createBasicQrObject(self, url: str, fill_color: str, back_color: str) -> qrcode.image.pil.PilImage:
@@ -30,28 +37,55 @@ class QrGenerator():
         qr.add_data(url)
         qr.make(fit=True)
         return qr.make_image(fill=fill_color, back_color=back_color)
-
     
-    def generateBasicQR(self, url: str, fill_color: str = 'black' , back_color: str = 'white'):
+
+    def __remove_illegal_chars_from_url_string(self, url: str) -> str:
+        '''
+        beif: removes any back slashes etc from url so it can be used in the filename
+
+        i.e. https://tomaston.dev -> tomaston.dev
+        '''
+        _temp_arr = url.split('.')
+        return _temp_arr[len(_temp_arr) - 2] + '.' +  _temp_arr[-1]
+
+
+    def generateBasicQR(self, url: str, fill_color: str = 'black' , back_color: str = 'white') -> None:
         '''
         brief: generates a basic qr code
         '''
         qr_img = self.__createBasicQrObject(url, fill_color, back_color)
-        qr_img.save('./basic-qr.png')
+        
+        output_file_path = f'./basic-qr-{self.__remove_illegal_chars_from_url_string(url)}.png'
+
+        qr_img.save(output_file_path)
+
+        self.log.log_info(f'New QR code generated at {output_file_path}', self.__class__.__name__)
 
     
-    def generateQRWithLogo(self, url: str, fill_color: str, back_color: str):
+    def generateQRWithLogo(
+            self,
+            url: str,
+            fill_color: str = 'black', 
+            back_color: str = 'white',
+            logo_file_path: str = './image/logo.png'
+            ) -> None:
         '''
         brief: generates qr code with logo
         '''
         qr_img = self.__createBasicQrObject(url, fill_color, back_color)
 
+        SIDE_LENGTH = 75
+
         #resize image using LANCZOS algo (image upscaling quality filter)
-        logo = Image.open('./image/logo.png').resize((75, 75), Image.LANCZOS)
+        logo = Image.open(logo_file_path).resize((SIDE_LENGTH, SIDE_LENGTH), Image.LANCZOS)
 
         #calculate position at centre of QR code
-        offset = ((qr_img.size[0] - 75) // 2, (qr_img.size[1] - 75) // 2)
+        offset = ((qr_img.size[0] - SIDE_LENGTH) // 2, (qr_img.size[1] - SIDE_LENGTH) // 2)
 
         qr_img.paste(logo, offset, mask=logo.split()[3] if logo.mode == 'RGBA' else None)
 
-        qr_img.save('./logo-qr.png')
+        output_file_path = f'./logo-qr-{self.__remove_illegal_chars_from_url_string(url)}.png'
+
+        qr_img.save(output_file_path)
+
+        self.log.log_info(f'New QR code generated at {output_file_path}', self.__class__.__name__)
