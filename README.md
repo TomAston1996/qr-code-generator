@@ -7,7 +7,7 @@
 
 # ⛆ QR Code Generator (Work In Progress)
 
-QR Code Generator is a very simple app used to create custom QR code images from user-defined URLs. The next steps for the app is to create an API endpoint in AWS Lambda for generating the custom codes.
+QR Code Generator is a very simple app used to create custom QR code images from user-defined URLs.
 
 ## 🧑‍💻 Tech Stack
 
