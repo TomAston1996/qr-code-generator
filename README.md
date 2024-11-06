@@ -20,6 +20,8 @@ I developed this for use on my personal website.
 ### Basic QR Code Generation or QR Code with Logo
 Create basic QR codes with custom coloring (default is black and white) or QR codes with the logo of your choice.
 
+Try it out below!
+
 ![basic](./image/basic-qr.png)  &emsp;   ![logo](./image/logo-qr.png)
 
 ## 🔧 Setup
